@@ -1,0 +1,519 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>command_line.command_api &mdash; Amulet Map Editor  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Amulet Map Editor
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">api module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design.html">Design Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line.html">command_line module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../version_definitions.html">version_definitions module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils.html">world_utils module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Amulet Map Editor</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>command_line.command_api</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for command_line.command_api</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Contains the required classes and various utility methods to allow the addition of 3rd</span>
+<span class="sd">party commands into the command-line portion of the editor.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">from</span> <span class="nn">api.world</span> <span class="k">import</span> <span class="n">World</span>
+<span class="kn">from</span> <span class="nn">api.world_loader</span> <span class="k">import</span> <span class="n">loader</span>
+
+<span class="n">_coordinate_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;&lt;(?P&lt;x&gt;-?\d+),(?P&lt;y&gt;\d+),(?P&lt;z&gt;-?\d+)&gt;&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="parse_coordinates"><a class="viewcode-back" href="../../command_line.html#command_line.command_api.parse_coordinates">[docs]</a><span class="k">def</span> <span class="nf">parse_coordinates</span><span class="p">(</span><span class="n">coord</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Utility function for parsing X,Y,Z coordinates from a string</span>
+
+<span class="sd">    :param coord: The coordinate string to parse</span>
+<span class="sd">    :return: A tuple of the coordinates as ints in X,Y,Z order</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">_coordinate_regex</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="command"><a class="viewcode-back" href="../../command_line.html#command_line.command_api.command">[docs]</a><span class="k">def</span> <span class="nf">command</span><span class="p">(</span><span class="n">command_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">SimpleCommand</span><span class="p">,</span> <span class="n">ComplexCommand</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Registers a class as a command. If the class&#39; parent is SimpleCommand, then it will use the abstracted methods.</span>
+<span class="sd">    If the class&#39; parent is ComplexCommand, then any method decorated with the `subcommand` decorator is registered as</span>
+<span class="sd">    a sub-command of the given command name.</span>
+
+<span class="sd">    :param command_name: The name used to identify the command, or the base command if using ComplexCommand</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">command_class</span><span class="p">):</span>
+        <span class="n">command_class</span><span class="o">.</span><span class="n">registered</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">command_class</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">command_class</span><span class="p">,</span> <span class="n">SimpleCommand</span><span class="p">):</span>
+                <span class="n">command_class</span><span class="o">.</span><span class="n">command</span> <span class="o">=</span> <span class="p">(</span><span class="n">command_class</span><span class="o">.</span><span class="n">run</span><span class="p">,</span> <span class="n">command_name</span><span class="p">)</span>
+                <span class="n">command_class</span><span class="o">.</span><span class="n">registered</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">command_class</span><span class="p">,</span> <span class="n">ComplexCommand</span><span class="p">):</span>
+                <span class="n">command_class</span><span class="o">.</span><span class="n">base_command</span> <span class="o">=</span> <span class="n">command_name</span>
+                <span class="n">command_class</span><span class="o">.</span><span class="n">registered</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">command_class</span>
+
+    <span class="k">return</span> <span class="n">decorator</span></div>
+
+
+<div class="viewcode-block" id="_CommandBase"><a class="viewcode-back" href="../../command_line.html#command_line.command_api._CommandBase">[docs]</a><span class="k">class</span> <span class="nc">_CommandBase</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract class that both :class:`SimpleCommand` and :class:`ComplexCommand` inherit from</span>
+
+<span class="sd">    Note: Any class that inherits this class won&#39;t be registered as a command, you must</span>
+<span class="sd">    inherit from :class:`SimpleCommand` or :class:`ComplexCommand`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="_CommandBase.get_mode"><a class="viewcode-back" href="../../command_line.html#command_line.command_api._CommandBase.get_mode">[docs]</a>    <span class="k">def</span> <span class="nf">get_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Mode</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Mode</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method for getting a Mode that the program is in</span>
+
+<span class="sd">        :param mode_class: The class of the Mode instance to get</span>
+<span class="sd">        :return: The instance of the specified Mode, None if the mode hasn&#39;t been entered</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">handler</span><span class="o">.</span><span class="n">get_mode</span><span class="p">(</span><span class="n">mode_class</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="_CommandBase.in_mode"><a class="viewcode-back" href="../../command_line.html#command_line.command_api._CommandBase.in_mode">[docs]</a>    <span class="k">def</span> <span class="nf">in_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Mode</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method for checking whether the program is in the specified Mode</span>
+
+<span class="sd">        :param mode_class: The class of the Mode to check for</span>
+<span class="sd">        :return: True if the program is in the specified Mode, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">handler</span><span class="o">.</span><span class="n">in_mode</span><span class="p">(</span><span class="n">mode_class</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd_handler</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">handler</span> <span class="o">=</span> <span class="n">cmd_handler</span>
+
+    <span class="c1"># self.in_mode = self.handler.in_mode</span>
+    <span class="c1"># self.get_mode = self.handler.get_mode</span>
+
+<div class="viewcode-block" id="_CommandBase.error"><a class="viewcode-back" href="../../command_line.html#command_line.command_api._CommandBase.error">[docs]</a>    <span class="k">def</span> <span class="nf">error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Utility method for printing an error message</span>
+
+<span class="sd">        :param message: The error message</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;=== Error: </span><span class="si">{message}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="_CommandBase.warning"><a class="viewcode-back" href="../../command_line.html#command_line.command_api._CommandBase.warning">[docs]</a>    <span class="k">def</span> <span class="nf">warning</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Utility method for printing a warning message</span>
+
+<span class="sd">        :param message: The warning message</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;== Warning: </span><span class="si">{message}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="_CommandBase.get_shared_data"><a class="viewcode-back" href="../../command_line.html#command_line.command_api._CommandBase.get_shared_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_shared_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entry_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">object</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Allows parsing and access to the shared data pool from a data accessor entry marked by a ``$``</span>
+
+<span class="sd">        :param entry_path: The path to search for an entry, can start with a &quot;$&quot; but isn&#39;t required to</span>
+<span class="sd">        :return: The value stored at the entry path, or None if the entry path couldn&#39;t be found</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">entry_path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;$&quot;</span><span class="p">):</span>
+            <span class="n">entry_path</span> <span class="o">=</span> <span class="n">entry_path</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+        <span class="n">depth</span> <span class="o">=</span> <span class="n">entry_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+        <span class="n">current_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handler</span><span class="o">.</span><span class="n">shared_data</span>
+
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">depth</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">current_dict</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+
+            <span class="n">current_dict</span> <span class="o">=</span> <span class="n">current_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">depth</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">current_dict</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="n">current_dict</span><span class="p">[</span><span class="n">depth</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span></div></div>
+
+
+<div class="viewcode-block" id="SimpleCommand"><a class="viewcode-back" href="../../command_line.html#command_line.command_api.SimpleCommand">[docs]</a><span class="k">class</span> <span class="nc">SimpleCommand</span><span class="p">(</span><span class="n">_CommandBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a command that can be executed within the command line</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SimpleCommand.get_subclasses"><a class="viewcode-back" href="../../command_line.html#command_line.command_api.SimpleCommand.get_subclasses">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">get_subclasses</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">SimpleCommand</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Utility function to get all classes that extend this one</span>
+
+<span class="sd">        :return: A list of all subclasses</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">subcls</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">():</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">subcls</span><span class="p">)</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">subcls</span><span class="o">.</span><span class="n">get_subclasses</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="SimpleCommand.run"><a class="viewcode-back" href="../../command_line.html#command_line.command_api.SimpleCommand.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Abstract method where the command logic is ran when the command is executed</span>
+
+<span class="sd">        :param args: The arguments of the full command</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SimpleCommand.help"><a class="viewcode-back" href="../../command_line.html#command_line.command_api.SimpleCommand.help">[docs]</a>    <span class="k">def</span> <span class="nf">help</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Abstract method for displaying a detailed help message about the command</span>
+
+<span class="sd">        This method expects all information to be printed, nothing returned will be used</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SimpleCommand.short_help"><a class="viewcode-back" href="../../command_line.html#command_line.command_api.SimpleCommand.short_help">[docs]</a>    <span class="k">def</span> <span class="nf">short_help</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Abstract method for displaying a short help/summary message about the command</span>
+
+<span class="sd">        This method should return a string that is &lt;= 50 characters in length, anything</span>
+<span class="sd">        longer will be truncated to 50 characters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+
+
+<div class="viewcode-block" id="subcommand"><a class="viewcode-back" href="../../command_line.html#command_line.command_api.subcommand">[docs]</a><span class="k">def</span> <span class="nf">subcommand</span><span class="p">(</span><span class="n">sub_command_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="kc">None</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Registers the decorated method as a subcommand of the containing ComplexCommand.</span>
+
+<span class="sd">    :param sub_command_name: The name/identifier of the subcommand</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">command</span> <span class="o">=</span> <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">sub_command_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">f</span>
+
+    <span class="k">return</span> <span class="n">decorator</span></div>
+
+
+<div class="viewcode-block" id="ComplexCommand"><a class="viewcode-back" href="../../command_line.html#command_line.command_api.ComplexCommand">[docs]</a><span class="k">class</span> <span class="nc">ComplexCommand</span><span class="p">(</span><span class="n">_CommandBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a base command that holds sub-commands</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init_subclass__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_persistent_data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">sub_commands</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">sub_cmd</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="s2">&quot;command&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">sub_cmd</span><span class="p">:</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">sub_commands</span><span class="p">[</span><span class="n">sub_cmd</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">sub_cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<div class="viewcode-block" id="ComplexCommand.get_subclasses"><a class="viewcode-back" href="../../command_line.html#command_line.command_api.ComplexCommand.get_subclasses">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">get_subclasses</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">ComplexCommand</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Utility function to get all classes that extend this one</span>
+
+<span class="sd">        :return: A list of all subclasses</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">sub</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">():</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">sub</span><span class="o">.</span><span class="n">get_subclasses</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="ComplexCommand.help"><a class="viewcode-back" href="../../command_line.html#command_line.command_api.ComplexCommand.help">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">help</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">command_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Abstract method that prints a detailed description of all the commands held by the base command if called</span>
+<span class="sd">        with default arguments. If help is called on a specific command, the subcommand&#39;s name will supplied with `command_name`</span>
+
+<span class="sd">        This method expects all information to be printed, nothing returned will be used</span>
+
+<span class="sd">        :arg command_name: The name/identifier of the specific command help was called on, None if help was called on the base command of the ComplexCommand</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ComplexCommand.short_help"><a class="viewcode-back" href="../../command_line.html#command_line.command_api.ComplexCommand.short_help">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">short_help</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Abstract method for displaying a short help/summary message about the general purpose of the sub-commands</span>
+
+<span class="sd">        This method should return a string that is &lt;= 50 characters in length, anything</span>
+<span class="sd">        longer will be truncated to 50 characters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="Mode"><a class="viewcode-back" href="../../command_line.html#command_line.command_api.Mode">[docs]</a><span class="k">class</span> <span class="nc">Mode</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a configurable state that the command line can enter. This is useful for controlling the execution of various</span>
+<span class="sd">    commands</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd_line_handler</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">handler</span> <span class="o">=</span> <span class="n">cmd_line_handler</span>
+
+    <span class="k">def</span> <span class="nf">__init_subclass__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_persistent_data</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Mode.before_execution"><a class="viewcode-back" href="../../command_line.html#command_line.command_api.Mode.before_execution">[docs]</a>    <span class="k">def</span> <span class="nf">before_execution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Called before the execution of a command. Return True to run the given command, False to halt the execution.</span>
+
+<span class="sd">        :param command: The command that is to be executed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Mode.enter"><a class="viewcode-back" href="../../command_line.html#command_line.command_api.Mode.enter">[docs]</a>    <span class="k">def</span> <span class="nf">enter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Called when the mode is entered</span>
+
+<span class="sd">        :return: Return False if the mode is not ready to be entered, otherwise return True.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Mode.exit"><a class="viewcode-back" href="../../command_line.html#command_line.command_api.Mode.exit">[docs]</a>    <span class="k">def</span> <span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Called when the mode is exited</span>
+
+<span class="sd">        :return: Return False if the mode is not ready to be exited, otherwise return True. If the exit command is supplied a &#39;-f&#39; argument, then the return value is ignored</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="WorldMode"><a class="viewcode-back" href="../../command_line.html#command_line.command_api.WorldMode">[docs]</a><span class="k">class</span> <span class="nc">WorldMode</span><span class="p">(</span><span class="n">Mode</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd_line_handler</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">WorldMode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">cmd_line_handler</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_world_path</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;world&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_world_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_world_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_world</span><span class="p">:</span> <span class="n">World</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load_world</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_world_path</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">world_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_world_path</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">world</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">World</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_world</span>
+
+    <span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_world_name</span>
+
+<div class="viewcode-block" id="WorldMode.before_execution"><a class="viewcode-back" href="../../command_line.html#command_line.command_api.WorldMode.before_execution">[docs]</a>    <span class="k">def</span> <span class="nf">before_execution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="WorldMode.enter"><a class="viewcode-back" href="../../command_line.html#command_line.command_api.WorldMode.enter">[docs]</a>    <span class="k">def</span> <span class="nf">enter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">handler</span><span class="o">.</span><span class="n">in_mode</span><span class="p">(</span><span class="n">WorldMode</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;You cannot load a world if another world is already loaded!&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">__debug__</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Entered world mode&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="WorldMode.exit"><a class="viewcode-back" href="../../command_line.html#command_line.command_api.WorldMode.exit">[docs]</a>    <span class="k">def</span> <span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">__debug__</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exiting world mode&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_world</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">True</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, The Amulet Map Editor Team.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../static/jquery.js"></script>
+      <script type="text/javascript" src="../../static/underscore.js"></script>
+      <script type="text/javascript" src="../../static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
