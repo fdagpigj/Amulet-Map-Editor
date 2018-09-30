@@ -25,15 +25,15 @@
   
 
   
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="world_loader module" href="world_loader.html" />
     <link rel="prev" title="box module" href="selection.html" /> 
 
   
-  <script src="../_static/js/modernizr.min.js"></script>
+  <script src="../static/js/modernizr.min.js"></script>
 
 </head>
 
@@ -146,7 +146,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/api/world.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../sources/api/world.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -163,12 +163,12 @@
 <span id="world-module"></span><h1>world module<a class="headerlink" href="#module-api.world" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="api.world.World">
-<em class="property">class </em><code class="descclassname">api.world.</code><code class="descname">World</code><span class="sig-paren">(</span><em>directory</em>, <em>root_tag</em>, <em>wrapper</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/api/world.html#World"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.world.World" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">api.world.</code><code class="descname">World</code><span class="sig-paren">(</span><em>directory</em>, <em>root_tag</em>, <em>wrapper</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/api/world.html#World"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.world.World" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Class that handles world editing of any world format via an separate and flexible data format</p>
 <dl class="method">
 <dt id="api.world.World.get_block">
-<code class="descname">get_block</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>z</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/api/world.html#World.get_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.world.World.get_block" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_block</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>z</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/api/world.html#World.get_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.world.World.get_block" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the blockstate at the specified coordinates</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -193,7 +193,7 @@
 
 <dl class="method">
 <dt id="api.world.World.get_chunk">
-<code class="descname">get_chunk</code><span class="sig-paren">(</span><em>cx</em>, <em>cz</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/api/world.html#World.get_chunk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.world.World.get_chunk" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_chunk</code><span class="sig-paren">(</span><em>cx</em>, <em>cz</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/api/world.html#World.get_chunk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.world.World.get_chunk" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the chunk data of the specified chunk coordinates</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -219,12 +219,12 @@
 
 <dl class="class">
 <dt id="api.world.WorldFormat">
-<em class="property">class </em><code class="descclassname">api.world.</code><code class="descname">WorldFormat</code><a class="reference internal" href="../_modules/api/world.html#WorldFormat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.world.WorldFormat" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">api.world.</code><code class="descname">WorldFormat</code><a class="reference internal" href="../modules/api/world.html#WorldFormat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.world.WorldFormat" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Base class for World objects</p>
 <dl class="classmethod">
 <dt id="api.world.WorldFormat.from_unified_format">
-<em class="property">classmethod </em><code class="descname">from_unified_format</code><span class="sig-paren">(</span><em>unified</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/api/world.html#WorldFormat.from_unified_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.world.WorldFormat.from_unified_format" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">from_unified_format</code><span class="sig-paren">(</span><em>unified</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/api/world.html#WorldFormat.from_unified_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.world.WorldFormat.from_unified_format" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts the passed object to the specific implementation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -242,7 +242,7 @@
 
 <dl class="classmethod">
 <dt id="api.world.WorldFormat.load">
-<em class="property">classmethod </em><code class="descname">load</code><span class="sig-paren">(</span><em>directory</em>, <em>definitions</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/api/world.html#WorldFormat.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.world.WorldFormat.load" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">load</code><span class="sig-paren">(</span><em>directory</em>, <em>definitions</em><span class="sig-paren">)</span><a class="reference internal" href="../modules/api/world.html#WorldFormat.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.world.WorldFormat.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads the Minecraft world contained in the given directory with the supplied definitions</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -266,7 +266,7 @@
 
 <dl class="method">
 <dt id="api.world.WorldFormat.save">
-<code class="descname">save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/api/world.html#WorldFormat.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.world.WorldFormat.save" title="Permalink to this definition">¶</a></dt>
+<code class="descname">save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/api/world.html#WorldFormat.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.world.WorldFormat.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves the current WorldFormat to disk</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -332,15 +332,15 @@
             SOURCELINK_SUFFIX: '.txt'
         };
     </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../static/jquery.js"></script>
+      <script type="text/javascript" src="../static/underscore.js"></script>
+      <script type="text/javascript" src="../static/doctools.js"></script>
 
   
 
   
   
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
+    <script type="text/javascript" src="../static/js/theme.js"></script>
   
 
   <script type="text/javascript">

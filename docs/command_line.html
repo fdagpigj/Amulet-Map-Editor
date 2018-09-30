@@ -25,15 +25,15 @@
   
 
   
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="version_definitions module" href="version_definitions.html" />
     <link rel="prev" title="World Design" href="design/world.html" /> 
 
   
-  <script src="_static/js/modernizr.min.js"></script>
+  <script src="static/js/modernizr.min.js"></script>
 
 </head>
 
@@ -137,7 +137,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/command_line.rst.txt" rel="nofollow"> View page source</a>
+            <a href="sources/command_line.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -156,12 +156,12 @@
 party commands into the command-line portion of the editor.</p>
 <dl class="class">
 <dt id="command_line.command_api.ComplexCommand">
-<em class="property">class </em><code class="descclassname">command_line.command_api.</code><code class="descname">ComplexCommand</code><span class="sig-paren">(</span><em>cmd_handler</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#ComplexCommand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.ComplexCommand" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">command_line.command_api.</code><code class="descname">ComplexCommand</code><span class="sig-paren">(</span><em>cmd_handler</em><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#ComplexCommand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.ComplexCommand" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#command_line.command_api._CommandBase" title="command_line.command_api._CommandBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">command_line.command_api._CommandBase</span></code></a></p>
 <p>Represents a base command that holds sub-commands</p>
 <dl class="classmethod">
 <dt id="command_line.command_api.ComplexCommand.get_subclasses">
-<em class="property">classmethod </em><code class="descname">get_subclasses</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#ComplexCommand.get_subclasses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.ComplexCommand.get_subclasses" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">get_subclasses</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#ComplexCommand.get_subclasses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.ComplexCommand.get_subclasses" title="Permalink to this definition">¶</a></dt>
 <dd><p>Utility function to get all classes that extend this one</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -177,7 +177,7 @@ party commands into the command-line portion of the editor.</p>
 
 <dl class="classmethod">
 <dt id="command_line.command_api.ComplexCommand.help">
-<em class="property">classmethod </em><code class="descname">help</code><span class="sig-paren">(</span><em>command_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#ComplexCommand.help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.ComplexCommand.help" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">help</code><span class="sig-paren">(</span><em>command_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#ComplexCommand.help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.ComplexCommand.help" title="Permalink to this definition">¶</a></dt>
 <dd><p>Abstract method that prints a detailed description of all the commands held by the base command if called
 with default arguments. If help is called on a specific command, the subcommand’s name will supplied with <cite>command_name</cite></p>
 <p>This method expects all information to be printed, nothing returned will be used</p>
@@ -193,7 +193,7 @@ with default arguments. If help is called on a specific command, the subcommand�
 
 <dl class="classmethod">
 <dt id="command_line.command_api.ComplexCommand.short_help">
-<em class="property">classmethod </em><code class="descname">short_help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#ComplexCommand.short_help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.ComplexCommand.short_help" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">short_help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#ComplexCommand.short_help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.ComplexCommand.short_help" title="Permalink to this definition">¶</a></dt>
 <dd><p>Abstract method for displaying a short help/summary message about the general purpose of the sub-commands</p>
 <p>This method should return a string that is &lt;= 50 characters in length, anything
 longer will be truncated to 50 characters</p>
@@ -211,13 +211,13 @@ longer will be truncated to 50 characters</p>
 
 <dl class="class">
 <dt id="command_line.command_api.Mode">
-<em class="property">class </em><code class="descclassname">command_line.command_api.</code><code class="descname">Mode</code><span class="sig-paren">(</span><em>cmd_line_handler</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#Mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.Mode" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">command_line.command_api.</code><code class="descname">Mode</code><span class="sig-paren">(</span><em>cmd_line_handler</em><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#Mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.Mode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Represents a configurable state that the command line can enter. This is useful for controlling the execution of various
 commands</p>
 <dl class="method">
 <dt id="command_line.command_api.Mode.before_execution">
-<code class="descname">before_execution</code><span class="sig-paren">(</span><em>command</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#Mode.before_execution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.Mode.before_execution" title="Permalink to this definition">¶</a></dt>
+<code class="descname">before_execution</code><span class="sig-paren">(</span><em>command</em><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#Mode.before_execution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.Mode.before_execution" title="Permalink to this definition">¶</a></dt>
 <dd><p>Called before the execution of a command. Return True to run the given command, False to halt the execution.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -233,7 +233,7 @@ commands</p>
 
 <dl class="method">
 <dt id="command_line.command_api.Mode.enter">
-<code class="descname">enter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#Mode.enter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.Mode.enter" title="Permalink to this definition">¶</a></dt>
+<code class="descname">enter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#Mode.enter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.Mode.enter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Called when the mode is entered</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -249,7 +249,7 @@ commands</p>
 
 <dl class="method">
 <dt id="command_line.command_api.Mode.exit">
-<code class="descname">exit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#Mode.exit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.Mode.exit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">exit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#Mode.exit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.Mode.exit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Called when the mode is exited</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -267,12 +267,12 @@ commands</p>
 
 <dl class="class">
 <dt id="command_line.command_api.SimpleCommand">
-<em class="property">class </em><code class="descclassname">command_line.command_api.</code><code class="descname">SimpleCommand</code><span class="sig-paren">(</span><em>cmd_handler</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#SimpleCommand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.SimpleCommand" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">command_line.command_api.</code><code class="descname">SimpleCommand</code><span class="sig-paren">(</span><em>cmd_handler</em><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#SimpleCommand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.SimpleCommand" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#command_line.command_api._CommandBase" title="command_line.command_api._CommandBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">command_line.command_api._CommandBase</span></code></a></p>
 <p>Represents a command that can be executed within the command line</p>
 <dl class="classmethod">
 <dt id="command_line.command_api.SimpleCommand.get_subclasses">
-<em class="property">classmethod </em><code class="descname">get_subclasses</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#SimpleCommand.get_subclasses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.SimpleCommand.get_subclasses" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">get_subclasses</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#SimpleCommand.get_subclasses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.SimpleCommand.get_subclasses" title="Permalink to this definition">¶</a></dt>
 <dd><p>Utility function to get all classes that extend this one</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -288,14 +288,14 @@ commands</p>
 
 <dl class="method">
 <dt id="command_line.command_api.SimpleCommand.help">
-<code class="descname">help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#SimpleCommand.help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.SimpleCommand.help" title="Permalink to this definition">¶</a></dt>
+<code class="descname">help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#SimpleCommand.help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.SimpleCommand.help" title="Permalink to this definition">¶</a></dt>
 <dd><p>Abstract method for displaying a detailed help message about the command</p>
 <p>This method expects all information to be printed, nothing returned will be used</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="command_line.command_api.SimpleCommand.run">
-<code class="descname">run</code><span class="sig-paren">(</span><em>args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#SimpleCommand.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.SimpleCommand.run" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run</code><span class="sig-paren">(</span><em>args</em><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#SimpleCommand.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.SimpleCommand.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Abstract method where the command logic is ran when the command is executed</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -309,7 +309,7 @@ commands</p>
 
 <dl class="method">
 <dt id="command_line.command_api.SimpleCommand.short_help">
-<code class="descname">short_help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#SimpleCommand.short_help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.SimpleCommand.short_help" title="Permalink to this definition">¶</a></dt>
+<code class="descname">short_help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#SimpleCommand.short_help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.SimpleCommand.short_help" title="Permalink to this definition">¶</a></dt>
 <dd><p>Abstract method for displaying a short help/summary message about the command</p>
 <p>This method should return a string that is &lt;= 50 characters in length, anything
 longer will be truncated to 50 characters</p>
@@ -327,11 +327,11 @@ longer will be truncated to 50 characters</p>
 
 <dl class="class">
 <dt id="command_line.command_api.WorldMode">
-<em class="property">class </em><code class="descclassname">command_line.command_api.</code><code class="descname">WorldMode</code><span class="sig-paren">(</span><em>cmd_line_handler</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#WorldMode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.WorldMode" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">command_line.command_api.</code><code class="descname">WorldMode</code><span class="sig-paren">(</span><em>cmd_line_handler</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#WorldMode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.WorldMode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#command_line.command_api.Mode" title="command_line.command_api.Mode"><code class="xref py py-class docutils literal notranslate"><span class="pre">command_line.command_api.Mode</span></code></a></p>
 <dl class="method">
 <dt id="command_line.command_api.WorldMode.before_execution">
-<code class="descname">before_execution</code><span class="sig-paren">(</span><em>cmd</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#WorldMode.before_execution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.WorldMode.before_execution" title="Permalink to this definition">¶</a></dt>
+<code class="descname">before_execution</code><span class="sig-paren">(</span><em>cmd</em><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#WorldMode.before_execution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.WorldMode.before_execution" title="Permalink to this definition">¶</a></dt>
 <dd><p>Called before the execution of a command. Return True to run the given command, False to halt the execution.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -347,7 +347,7 @@ longer will be truncated to 50 characters</p>
 
 <dl class="method">
 <dt id="command_line.command_api.WorldMode.enter">
-<code class="descname">enter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#WorldMode.enter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.WorldMode.enter" title="Permalink to this definition">¶</a></dt>
+<code class="descname">enter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#WorldMode.enter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.WorldMode.enter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Called when the mode is entered</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -363,7 +363,7 @@ longer will be truncated to 50 characters</p>
 
 <dl class="method">
 <dt id="command_line.command_api.WorldMode.exit">
-<code class="descname">exit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#WorldMode.exit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.WorldMode.exit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">exit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#WorldMode.exit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.WorldMode.exit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Called when the mode is exited</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -381,14 +381,14 @@ longer will be truncated to 50 characters</p>
 
 <dl class="class">
 <dt id="command_line.command_api._CommandBase">
-<em class="property">class </em><code class="descclassname">command_line.command_api.</code><code class="descname">_CommandBase</code><span class="sig-paren">(</span><em>cmd_handler</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#_CommandBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api._CommandBase" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">command_line.command_api.</code><code class="descname">_CommandBase</code><span class="sig-paren">(</span><em>cmd_handler</em><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#_CommandBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api._CommandBase" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Abstract class that both <a class="reference internal" href="#command_line.command_api.SimpleCommand" title="command_line.command_api.SimpleCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleCommand</span></code></a> and <a class="reference internal" href="#command_line.command_api.ComplexCommand" title="command_line.command_api.ComplexCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComplexCommand</span></code></a> inherit from</p>
 <p>Note: Any class that inherits this class won’t be registered as a command, you must
 inherit from <a class="reference internal" href="#command_line.command_api.SimpleCommand" title="command_line.command_api.SimpleCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleCommand</span></code></a> or <a class="reference internal" href="#command_line.command_api.ComplexCommand" title="command_line.command_api.ComplexCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComplexCommand</span></code></a></p>
 <dl class="method">
 <dt id="command_line.command_api._CommandBase.error">
-<code class="descname">error</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#_CommandBase.error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api._CommandBase.error" title="Permalink to this definition">¶</a></dt>
+<code class="descname">error</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#_CommandBase.error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api._CommandBase.error" title="Permalink to this definition">¶</a></dt>
 <dd><p>Utility method for printing an error message</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -402,7 +402,7 @@ inherit from <a class="reference internal" href="#command_line.command_api.Simpl
 
 <dl class="method">
 <dt id="command_line.command_api._CommandBase.get_mode">
-<code class="descname">get_mode</code><span class="sig-paren">(</span><em>mode_class</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#_CommandBase.get_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api._CommandBase.get_mode" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_mode</code><span class="sig-paren">(</span><em>mode_class</em><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#_CommandBase.get_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api._CommandBase.get_mode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method for getting a Mode that the program is in</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -420,7 +420,7 @@ inherit from <a class="reference internal" href="#command_line.command_api.Simpl
 
 <dl class="method">
 <dt id="command_line.command_api._CommandBase.get_shared_data">
-<code class="descname">get_shared_data</code><span class="sig-paren">(</span><em>entry_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#_CommandBase.get_shared_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api._CommandBase.get_shared_data" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_shared_data</code><span class="sig-paren">(</span><em>entry_path</em><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#_CommandBase.get_shared_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api._CommandBase.get_shared_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Allows parsing and access to the shared data pool from a data accessor entry marked by a <code class="docutils literal notranslate"><span class="pre">$</span></code></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -438,7 +438,7 @@ inherit from <a class="reference internal" href="#command_line.command_api.Simpl
 
 <dl class="method">
 <dt id="command_line.command_api._CommandBase.in_mode">
-<code class="descname">in_mode</code><span class="sig-paren">(</span><em>mode_class</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#_CommandBase.in_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api._CommandBase.in_mode" title="Permalink to this definition">¶</a></dt>
+<code class="descname">in_mode</code><span class="sig-paren">(</span><em>mode_class</em><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#_CommandBase.in_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api._CommandBase.in_mode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method for checking whether the program is in the specified Mode</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -456,7 +456,7 @@ inherit from <a class="reference internal" href="#command_line.command_api.Simpl
 
 <dl class="method">
 <dt id="command_line.command_api._CommandBase.warning">
-<code class="descname">warning</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#_CommandBase.warning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api._CommandBase.warning" title="Permalink to this definition">¶</a></dt>
+<code class="descname">warning</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#_CommandBase.warning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api._CommandBase.warning" title="Permalink to this definition">¶</a></dt>
 <dd><p>Utility method for printing a warning message</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -472,7 +472,7 @@ inherit from <a class="reference internal" href="#command_line.command_api.Simpl
 
 <dl class="function">
 <dt id="command_line.command_api.command">
-<code class="descclassname">command_line.command_api.</code><code class="descname">command</code><span class="sig-paren">(</span><em>command_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.command" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">command_line.command_api.</code><code class="descname">command</code><span class="sig-paren">(</span><em>command_name</em><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Registers a class as a command. If the class’ parent is SimpleCommand, then it will use the abstracted methods.
 If the class’ parent is ComplexCommand, then any method decorated with the <cite>subcommand</cite> decorator is registered as
 a sub-command of the given command name.</p>
@@ -490,7 +490,7 @@ a sub-command of the given command name.</p>
 
 <dl class="function">
 <dt id="command_line.command_api.parse_coordinates">
-<code class="descclassname">command_line.command_api.</code><code class="descname">parse_coordinates</code><span class="sig-paren">(</span><em>coord</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#parse_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.parse_coordinates" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">command_line.command_api.</code><code class="descname">parse_coordinates</code><span class="sig-paren">(</span><em>coord</em><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#parse_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.parse_coordinates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Utility function for parsing X,Y,Z coordinates from a string</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -508,7 +508,7 @@ a sub-command of the given command name.</p>
 
 <dl class="function">
 <dt id="command_line.command_api.subcommand">
-<code class="descclassname">command_line.command_api.</code><code class="descname">subcommand</code><span class="sig-paren">(</span><em>sub_command_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#subcommand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.subcommand" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">command_line.command_api.</code><code class="descname">subcommand</code><span class="sig-paren">(</span><em>sub_command_name</em><span class="sig-paren">)</span><a class="reference internal" href="modules/command_line/command_api.html#subcommand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.subcommand" title="Permalink to this definition">¶</a></dt>
 <dd><p>Registers the decorated method as a subcommand of the containing ComplexCommand.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -574,15 +574,15 @@ a sub-command of the given command name.</p>
             SOURCELINK_SUFFIX: '.txt'
         };
     </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="static/jquery.js"></script>
+      <script type="text/javascript" src="static/underscore.js"></script>
+      <script type="text/javascript" src="static/doctools.js"></script>
 
   
 
   
   
-    <script type="text/javascript" src="_static/js/theme.js"></script>
+    <script type="text/javascript" src="static/js/theme.js"></script>
   
 
   <script type="text/javascript">
