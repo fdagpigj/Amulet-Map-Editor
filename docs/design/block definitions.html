@@ -1,0 +1,277 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Block Definitions &mdash; Amulet Map Editor  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="World Design" href="world.html" />
+    <link rel="prev" title="Design Notes" href="../design.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Amulet Map Editor
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../api.html">api module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../design.html">Design Notes</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Block Definitions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#intro">Intro</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#versioned-blocks">Versioned Blocks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#identifying-and-loading-worlds">Identifying and Loading Worlds</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="world.html">World Design</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line.html">command_line module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../version_definitions.html">version_definitions module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils.html">world_utils module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Amulet Map Editor</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../design.html">Design Notes</a> &raquo;</li>
+        
+      <li>Block Definitions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/design/block definitions.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="block-definitions">
+<h1>Block Definitions<a class="headerlink" href="#block-definitions" title="Permalink to this headline">¶</a></h1>
+<p>Relevant classes: <a class="reference internal" href="../version_definitions.html#version_definitions.definition_manager.DefinitionManager" title="version_definitions.definition_manager.DefinitionManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">version_definitions.definition_manager.DefinitionManager</span></code></a></p>
+<div class="section" id="intro">
+<h2>Intro<a class="headerlink" href="#intro" title="Permalink to this headline">¶</a></h2>
+<p>One of the biggest problems with <cite>Minecraft: Java Edition 1.13</cite> is that it switched the structure
+of the world save data from using pairs of numerical IDs to define blocks in the world. Previously
+these IDs were constant and represented a single block. However, 1.13 changed it so blocks were
+identified by blockstates as strings. Some blocks, like Noteblocks for example, went from storing
+their data as NBT to using blockstates, this caused an issue where not all blocks have a clear
+<code class="docutils literal notranslate"><span class="pre">(ID,</span> <span class="pre">data)</span> <span class="pre">&lt;-&gt;</span> <span class="pre">blockstate</span></code> translation. This has prompted us to use blockstate strings as
+block identifiers in the editor and only numerical IDs where absolutely needed.</p>
+</div>
+<div class="section" id="versioned-blocks">
+<h2>Versioned Blocks<a class="headerlink" href="#versioned-blocks" title="Permalink to this headline">¶</a></h2>
+<p>Each supported Minecraft version must define all blocks and provide the following information:</p>
+<ul class="simple">
+<li>The blockstate string that the version uses (IE: <code class="docutils literal notranslate"><span class="pre">minecraft:stone[variant=stone]</span></code> for Java 1.12)
+as a dictionary/JSON key for the rest of the following information. If there’s information inside
+the square brackets, the blockstate identifiers should be a child key with the base blockstate
+(<code class="docutils literal notranslate"><span class="pre">stone</span></code>) being the parent key.</li>
+<li>The ID of that blockstate for that version (IE: <code class="docutils literal notranslate"><span class="pre">[1,0]</span></code> for Java 1.12, <code class="docutils literal notranslate"><span class="pre">minecraft:stone</span></code> for
+Java 1.13)</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">map_to</span></code> key that links the version defined block to a block that we have internally defined</li>
+<li><cite>Optional</cite>: The <code class="docutils literal notranslate"><span class="pre">nbt</span></code> key if the block originally stored it’s data as NBT before 1.13 and
+switched to blockstates in 1.13+ (IE: Noteblocks) <strong>!!Incomplete!!</strong></li>
+</ul>
+</div>
+<div class="section" id="identifying-and-loading-worlds">
+<h2>Identifying and Loading Worlds<a class="headerlink" href="#identifying-and-loading-worlds" title="Permalink to this headline">¶</a></h2>
+<p>Each version definition is required to have a <code class="docutils literal notranslate"><span class="pre">identify()</span></code> and <code class="docutils literal notranslate"><span class="pre">load()</span></code> function in a python file with the same name as
+the directory containing it and the version definitions, but with underscores instead of dots (IE: <code class="docutils literal notranslate"><span class="pre">1.12</span></code> definitions
+would have <code class="docutils literal notranslate"><span class="pre">1_12.py</span></code>). The identify function doesn’t do any loading but is given the directory path to the world and using
+the directory structure and NBT structure in the <cite>level.dat</cite>. This function returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if it matches criteria to be
+loaded by that format loader, if not, <code class="docutils literal notranslate"><span class="pre">False</span></code> is to be returned.</p>
+<p><code class="docutils literal notranslate"><span class="pre">load()</span></code>’s function is to load a world with the
+appropriate format loader for the version definitions (IE: <code class="docutils literal notranslate"><span class="pre">1.12</span></code> loads via <code class="docutils literal notranslate"><span class="pre">anvil</span></code> and <code class="docutils literal notranslate"><span class="pre">1.13</span></code> loads via <code class="docutils literal notranslate"><span class="pre">anvil2</span></code>).
+When calling <code class="docutils literal notranslate"><span class="pre">load()</span></code>, the path to the world directory is given (it can be assumed that the accompanying <code class="docutils literal notranslate"><span class="pre">identify()</span></code>
+function has been called and has returned <code class="docutils literal notranslate"><span class="pre">True</span></code>) and the method is to return the resulting <a class="reference internal" href="../api/world.html#api.world.World" title="api.world.World"><code class="xref py py-class docutils literal notranslate"><span class="pre">api.world.World</span></code></a> object created from
+the world format loader.</p>
+<p>This python file is also expected to have a global variable named <code class="docutils literal notranslate"><span class="pre">FORMAT</span></code>, which allows Amulet to output what format
+loader will be used when loading the world to the user.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="world.html" class="btn btn-neutral float-right" title="World Design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../design.html" class="btn btn-neutral" title="Design Notes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, The Amulet Map Editor Team.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

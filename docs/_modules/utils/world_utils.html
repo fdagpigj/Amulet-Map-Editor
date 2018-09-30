@@ -1,0 +1,343 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>utils.world_utils &mdash; Amulet Map Editor  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Amulet Map Editor
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">api module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design.html">Design Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line.html">command_line module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../version_definitions.html">version_definitions module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils.html">world_utils module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Amulet Map Editor</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>utils.world_utils</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for utils.world_utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">log</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="k">import</span> <span class="n">StringIO</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">uint8</span>
+
+<span class="n">Coordinates</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+
+<span class="n">SECTOR_BYTES</span> <span class="o">=</span> <span class="mi">4096</span>
+<span class="n">SECTOR_INTS</span> <span class="o">=</span> <span class="n">SECTOR_BYTES</span> <span class="o">/</span> <span class="mi">4</span>
+<span class="n">CHUNK_HEADER_SIZE</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">VERSION_GZIP</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">VERSION_DEFLATE</span> <span class="o">=</span> <span class="mi">2</span>
+
+
+<div class="viewcode-block" id="block_coords_to_chunk_coords"><a class="viewcode-back" href="../../utils.html#utils.world_utils.block_coords_to_chunk_coords">[docs]</a><span class="k">def</span> <span class="nf">block_coords_to_chunk_coords</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Coordinates</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts the supplied block coordinates into chunk coordinates</span>
+
+<span class="sd">    :param x: The x coordinate of the block</span>
+<span class="sd">    :param z: The z coordinate of the block</span>
+<span class="sd">    :return: The resulting chunk coordinates in (x, z) order</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="mi">4</span><span class="p">,</span> <span class="n">z</span> <span class="o">&gt;&gt;</span> <span class="mi">4</span></div>
+
+
+<div class="viewcode-block" id="chunk_coords_to_block_coords"><a class="viewcode-back" href="../../utils.html#utils.world_utils.chunk_coords_to_block_coords">[docs]</a><span class="k">def</span> <span class="nf">chunk_coords_to_block_coords</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Coordinates</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts the supplied chunk coordinates into block coordinates</span>
+
+<span class="sd">    :param x: The x coordinate of the chunk</span>
+<span class="sd">    :param z: The z coordinate of the chunk</span>
+<span class="sd">    :return: The resulting block coordinates in (x, z) order</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span><span class="p">,</span> <span class="n">z</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span></div>
+
+
+<div class="viewcode-block" id="chunk_coords_to_region_coords"><a class="viewcode-back" href="../../utils.html#utils.world_utils.chunk_coords_to_region_coords">[docs]</a><span class="k">def</span> <span class="nf">chunk_coords_to_region_coords</span><span class="p">(</span><span class="n">cx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cz</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Coordinates</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts the supplied chunk coordinates into region coordinates</span>
+
+<span class="sd">    :param cx: The x coordinate of the chunk</span>
+<span class="sd">    :param cz: The z coordinate of the chunk</span>
+<span class="sd">    :return: The resulting region coordinates in (x, z) order</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">cx</span> <span class="o">&gt;&gt;</span> <span class="mi">5</span><span class="p">,</span> <span class="n">cz</span> <span class="o">&gt;&gt;</span> <span class="mi">5</span></div>
+
+
+<div class="viewcode-block" id="region_coords_to_chunk_coords"><a class="viewcode-back" href="../../utils.html#utils.world_utils.region_coords_to_chunk_coords">[docs]</a><span class="k">def</span> <span class="nf">region_coords_to_chunk_coords</span><span class="p">(</span><span class="n">rx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rz</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Coordinates</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts the supplied region coordinates into the minimum chunk coordinates of that region</span>
+
+<span class="sd">    :param rx: The x coordinate of the region</span>
+<span class="sd">    :param rz: The y coordinate of the region</span>
+<span class="sd">    :return: The resulting minimum chunk coordinates of that region in (x, z) order</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">rx</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span><span class="p">,</span> <span class="n">rz</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span></div>
+
+
+<div class="viewcode-block" id="blocks_slice_to_chunk_slice"><a class="viewcode-back" href="../../utils.html#utils.world_utils.blocks_slice_to_chunk_slice">[docs]</a><span class="k">def</span> <span class="nf">blocks_slice_to_chunk_slice</span><span class="p">(</span><span class="n">blocks_slice</span><span class="p">:</span> <span class="nb">slice</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">slice</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts the supplied blocks slice into chunk slice</span>
+<span class="sd">    :param blocks_slice: The slice of the blocks</span>
+<span class="sd">    :return: The resulting chunk slice</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">slice</span><span class="p">(</span><span class="n">blocks_slice</span><span class="o">.</span><span class="n">start</span> <span class="o">%</span> <span class="mi">16</span><span class="p">,</span> <span class="n">blocks_slice</span><span class="o">.</span><span class="n">stop</span> <span class="o">%</span> <span class="mi">16</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="gunzip"><a class="viewcode-back" href="../../utils.html#utils.world_utils.gunzip">[docs]</a><span class="k">def</span> <span class="nf">gunzip</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decompresses data that is in Gzip format</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">gzip</span><span class="o">.</span><span class="n">GzipFile</span><span class="p">(</span><span class="n">fileobj</span><span class="o">=</span><span class="n">StringIO</span><span class="p">(</span><span class="n">data</span><span class="p">))</span><span class="o">.</span><span class="n">read</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="from_nibble_array"><a class="viewcode-back" href="../../utils.html#utils.world_utils.from_nibble_array">[docs]</a><span class="k">def</span> <span class="nf">from_nibble_array</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Unpacks a nibble array into a full size numpy array</span>
+
+<span class="sd">    :param arr: The nibble array</span>
+<span class="sd">    :return: The resulting array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="n">new_arr</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">((</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">uint8</span><span class="p">)</span>
+
+    <span class="n">new_arr</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span>
+    <span class="n">new_arr</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">&amp;=</span> <span class="mh">0xf</span>
+    <span class="n">new_arr</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span>
+    <span class="n">new_arr</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;&gt;=</span> <span class="mi">4</span>
+
+    <span class="k">return</span> <span class="n">new_arr</span></div>
+
+
+<div class="viewcode-block" id="get_size"><a class="viewcode-back" href="../../utils.html#utils.world_utils.get_size">[docs]</a><span class="k">def</span> <span class="nf">get_size</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">seen</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Recursively finds size of objects&quot;&quot;&quot;</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">seen</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">obj_id</span> <span class="o">=</span> <span class="nb">id</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">obj_id</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="c1"># Important mark as seen *before* entering recursion to gracefully handle</span>
+    <span class="c1"># self-referential objects</span>
+    <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">obj_id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">size</span> <span class="o">+=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">get_size</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">seen</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+        <span class="n">size</span> <span class="o">+=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">get_size</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">seen</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">keys</span><span class="p">()])</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;__dict__&quot;</span><span class="p">):</span>
+        <span class="n">size</span> <span class="o">+=</span> <span class="n">get_size</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">,</span> <span class="n">seen</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;__iter__&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="nb">bytearray</span><span class="p">)):</span>
+        <span class="n">size</span> <span class="o">+=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">get_size</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">seen</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">size</span></div>
+
+
+<div class="viewcode-block" id="get_smallest_dtype"><a class="viewcode-back" href="../../utils.html#utils.world_utils.get_smallest_dtype">[docs]</a><span class="k">def</span> <span class="nf">get_smallest_dtype</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">uint</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the smallest dtype (number) that the array can afford</span>
+<span class="sd">    :param arr: The array to check on</span>
+<span class="sd">    :param uint: Should the array fit in uint or not (default: True)</span>
+<span class="sd">    :return: The number of bits all the elements can be represented with</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">possible_dtypes</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+    <span class="n">max_number</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">uint</span><span class="p">:</span>
+        <span class="n">max_number</span> <span class="o">=</span> <span class="n">max_number</span> <span class="o">*</span> <span class="mi">2</span>
+    <span class="k">if</span> <span class="n">max_number</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">max_number</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="n">dtype</span> <span class="k">for</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="n">possible_dtypes</span> <span class="k">if</span> <span class="n">dtype</span> <span class="o">&gt;</span> <span class="n">log</span><span class="p">(</span><span class="n">max_number</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, The Amulet Map Editor Team.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

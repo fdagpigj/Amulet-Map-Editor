@@ -1,0 +1,595 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>command_line module &mdash; Amulet Map Editor  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="version_definitions module" href="version_definitions.html" />
+    <link rel="prev" title="World Design" href="design/world.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Amulet Map Editor
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="api.html">api module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design.html">Design Notes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">command_line module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version_definitions.html">version_definitions module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">world_utils module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Amulet Map Editor</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>command_line module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/command_line.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-command_line.command_api">
+<span id="command-line-module"></span><h1>command_line module<a class="headerlink" href="#module-command_line.command_api" title="Permalink to this headline">¶</a></h1>
+<p>Contains the required classes and various utility methods to allow the addition of 3rd
+party commands into the command-line portion of the editor.</p>
+<dl class="class">
+<dt id="command_line.command_api.ComplexCommand">
+<em class="property">class </em><code class="descclassname">command_line.command_api.</code><code class="descname">ComplexCommand</code><span class="sig-paren">(</span><em>cmd_handler</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#ComplexCommand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.ComplexCommand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#command_line.command_api._CommandBase" title="command_line.command_api._CommandBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">command_line.command_api._CommandBase</span></code></a></p>
+<p>Represents a base command that holds sub-commands</p>
+<dl class="classmethod">
+<dt id="command_line.command_api.ComplexCommand.get_subclasses">
+<em class="property">classmethod </em><code class="descname">get_subclasses</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#ComplexCommand.get_subclasses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.ComplexCommand.get_subclasses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utility function to get all classes that extend this one</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code></a>[<a class="reference internal" href="#command_line.command_api.ComplexCommand" title="command_line.command_api.ComplexCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComplexCommand</span></code></a>]]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of all subclasses</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="command_line.command_api.ComplexCommand.help">
+<em class="property">classmethod </em><code class="descname">help</code><span class="sig-paren">(</span><em>command_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#ComplexCommand.help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.ComplexCommand.help" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method that prints a detailed description of all the commands held by the base command if called
+with default arguments. If help is called on a specific command, the subcommand’s name will supplied with <cite>command_name</cite></p>
+<p>This method expects all information to be printed, nothing returned will be used</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>command_name</strong> – The name/identifier of the specific command help was called on, None if help was called on the base command of the ComplexCommand</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="command_line.command_api.ComplexCommand.short_help">
+<em class="property">classmethod </em><code class="descname">short_help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#ComplexCommand.short_help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.ComplexCommand.short_help" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method for displaying a short help/summary message about the general purpose of the sub-commands</p>
+<p>This method should return a string that is &lt;= 50 characters in length, anything
+longer will be truncated to 50 characters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="command_line.command_api.Mode">
+<em class="property">class </em><code class="descclassname">command_line.command_api.</code><code class="descname">Mode</code><span class="sig-paren">(</span><em>cmd_line_handler</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#Mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.Mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Represents a configurable state that the command line can enter. This is useful for controlling the execution of various
+commands</p>
+<dl class="method">
+<dt id="command_line.command_api.Mode.before_execution">
+<code class="descname">before_execution</code><span class="sig-paren">(</span><em>command</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#Mode.before_execution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.Mode.before_execution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called before the execution of a command. Return True to run the given command, False to halt the execution.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>command</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – The command that is to be executed</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="command_line.command_api.Mode.enter">
+<code class="descname">enter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#Mode.enter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.Mode.enter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called when the mode is entered</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Return False if the mode is not ready to be entered, otherwise return True.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="command_line.command_api.Mode.exit">
+<code class="descname">exit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#Mode.exit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.Mode.exit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called when the mode is exited</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Return False if the mode is not ready to be exited, otherwise return True. If the exit command is supplied a ‘-f’ argument, then the return value is ignored</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="command_line.command_api.SimpleCommand">
+<em class="property">class </em><code class="descclassname">command_line.command_api.</code><code class="descname">SimpleCommand</code><span class="sig-paren">(</span><em>cmd_handler</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#SimpleCommand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.SimpleCommand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#command_line.command_api._CommandBase" title="command_line.command_api._CommandBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">command_line.command_api._CommandBase</span></code></a></p>
+<p>Represents a command that can be executed within the command line</p>
+<dl class="classmethod">
+<dt id="command_line.command_api.SimpleCommand.get_subclasses">
+<em class="property">classmethod </em><code class="descname">get_subclasses</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#SimpleCommand.get_subclasses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.SimpleCommand.get_subclasses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utility function to get all classes that extend this one</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code></a>[<a class="reference internal" href="#command_line.command_api.SimpleCommand" title="command_line.command_api.SimpleCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleCommand</span></code></a>]]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of all subclasses</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="command_line.command_api.SimpleCommand.help">
+<code class="descname">help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#SimpleCommand.help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.SimpleCommand.help" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method for displaying a detailed help message about the command</p>
+<p>This method expects all information to be printed, nothing returned will be used</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="command_line.command_api.SimpleCommand.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#SimpleCommand.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.SimpleCommand.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method where the command logic is ran when the command is executed</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – The arguments of the full command</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="command_line.command_api.SimpleCommand.short_help">
+<code class="descname">short_help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#SimpleCommand.short_help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.SimpleCommand.short_help" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method for displaying a short help/summary message about the command</p>
+<p>This method should return a string that is &lt;= 50 characters in length, anything
+longer will be truncated to 50 characters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="command_line.command_api.WorldMode">
+<em class="property">class </em><code class="descclassname">command_line.command_api.</code><code class="descname">WorldMode</code><span class="sig-paren">(</span><em>cmd_line_handler</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#WorldMode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.WorldMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#command_line.command_api.Mode" title="command_line.command_api.Mode"><code class="xref py py-class docutils literal notranslate"><span class="pre">command_line.command_api.Mode</span></code></a></p>
+<dl class="method">
+<dt id="command_line.command_api.WorldMode.before_execution">
+<code class="descname">before_execution</code><span class="sig-paren">(</span><em>cmd</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#WorldMode.before_execution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.WorldMode.before_execution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called before the execution of a command. Return True to run the given command, False to halt the execution.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>command</strong> – The command that is to be executed</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="command_line.command_api.WorldMode.enter">
+<code class="descname">enter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#WorldMode.enter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.WorldMode.enter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called when the mode is entered</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Return False if the mode is not ready to be entered, otherwise return True.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="command_line.command_api.WorldMode.exit">
+<code class="descname">exit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#WorldMode.exit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.WorldMode.exit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called when the mode is exited</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Return False if the mode is not ready to be exited, otherwise return True. If the exit command is supplied a ‘-f’ argument, then the return value is ignored</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="command_line.command_api._CommandBase">
+<em class="property">class </em><code class="descclassname">command_line.command_api.</code><code class="descname">_CommandBase</code><span class="sig-paren">(</span><em>cmd_handler</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#_CommandBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api._CommandBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Abstract class that both <a class="reference internal" href="#command_line.command_api.SimpleCommand" title="command_line.command_api.SimpleCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleCommand</span></code></a> and <a class="reference internal" href="#command_line.command_api.ComplexCommand" title="command_line.command_api.ComplexCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComplexCommand</span></code></a> inherit from</p>
+<p>Note: Any class that inherits this class won’t be registered as a command, you must
+inherit from <a class="reference internal" href="#command_line.command_api.SimpleCommand" title="command_line.command_api.SimpleCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleCommand</span></code></a> or <a class="reference internal" href="#command_line.command_api.ComplexCommand" title="command_line.command_api.ComplexCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComplexCommand</span></code></a></p>
+<dl class="method">
+<dt id="command_line.command_api._CommandBase.error">
+<code class="descname">error</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#_CommandBase.error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api._CommandBase.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utility method for printing an error message</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>) – The error message</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="command_line.command_api._CommandBase.get_mode">
+<code class="descname">get_mode</code><span class="sig-paren">(</span><em>mode_class</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#_CommandBase.get_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api._CommandBase.get_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method for getting a Mode that the program is in</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mode_class</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code></a>[<a class="reference internal" href="#command_line.command_api.Mode" title="command_line.command_api.Mode"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mode</span></code></a>]) – The class of the Mode instance to get</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#command_line.command_api.Mode" title="command_line.command_api.Mode"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mode</span></code></a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The instance of the specified Mode, None if the mode hasn’t been entered</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="command_line.command_api._CommandBase.get_shared_data">
+<code class="descname">get_shared_data</code><span class="sig-paren">(</span><em>entry_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#_CommandBase.get_shared_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api._CommandBase.get_shared_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allows parsing and access to the shared data pool from a data accessor entry marked by a <code class="docutils literal notranslate"><span class="pre">$</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>entry_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – The path to search for an entry, can start with a “$” but isn’t required to</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a>]</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The value stored at the entry path, or None if the entry path couldn’t be found</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="command_line.command_api._CommandBase.in_mode">
+<code class="descname">in_mode</code><span class="sig-paren">(</span><em>mode_class</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#_CommandBase.in_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api._CommandBase.in_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method for checking whether the program is in the specified Mode</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mode_class</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code></a>[<a class="reference internal" href="#command_line.command_api.Mode" title="command_line.command_api.Mode"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mode</span></code></a>]) – The class of the Mode to check for</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if the program is in the specified Mode, False otherwise</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="command_line.command_api._CommandBase.warning">
+<code class="descname">warning</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#_CommandBase.warning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api._CommandBase.warning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utility method for printing a warning message</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>) – The warning message</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="command_line.command_api.command">
+<code class="descclassname">command_line.command_api.</code><code class="descname">command</code><span class="sig-paren">(</span><em>command_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers a class as a command. If the class’ parent is SimpleCommand, then it will use the abstracted methods.
+If the class’ parent is ComplexCommand, then any method decorated with the <cite>subcommand</cite> decorator is registered as
+a sub-command of the given command name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>command_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – The name used to identify the command, or the base command if using ComplexCommand</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference internal" href="#command_line.command_api.SimpleCommand" title="command_line.command_api.SimpleCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleCommand</span></code></a>, <a class="reference internal" href="#command_line.command_api.ComplexCommand" title="command_line.command_api.ComplexCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComplexCommand</span></code></a>]]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="command_line.command_api.parse_coordinates">
+<code class="descclassname">command_line.command_api.</code><code class="descname">parse_coordinates</code><span class="sig-paren">(</span><em>coord</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#parse_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.parse_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utility function for parsing X,Y,Z coordinates from a string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>coord</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – The coordinate string to parse</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Tuple</span></code>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple of the coordinates as ints in X,Y,Z order</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="command_line.command_api.subcommand">
+<code class="descclassname">command_line.command_api.</code><code class="descname">subcommand</code><span class="sig-paren">(</span><em>sub_command_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/command_line/command_api.html#subcommand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#command_line.command_api.subcommand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers the decorated method as a subcommand of the containing ComplexCommand.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sub_command_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – The name/identifier of the subcommand</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>[[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]], <code class="docutils literal notranslate"><span class="pre">None</span></code>]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="version_definitions.html" class="btn btn-neutral float-right" title="version_definitions module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="design/world.html" class="btn btn-neutral" title="World Design" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, The Amulet Map Editor Team.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

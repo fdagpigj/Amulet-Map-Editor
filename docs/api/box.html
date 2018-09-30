@@ -1,0 +1,335 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>box module &mdash; Amulet Map Editor  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="data_structures module" href="data_structures.html" />
+    <link rel="prev" title="api module" href="../api.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Amulet Map Editor
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">api module</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">box module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_structures.html">data_structures module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paths.html">paths module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="world.html">world module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="world_loader.html">world_loader module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../design.html">Design Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line.html">command_line module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../version_definitions.html">version_definitions module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils.html">world_utils module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Amulet Map Editor</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../api.html">api module</a> &raquo;</li>
+        
+      <li>box module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/box.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-api.selection">
+<span id="box-module"></span><h1>box module<a class="headerlink" href="#module-api.selection" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="api.selection.SelectionBox">
+<em class="property">class </em><code class="descclassname">api.selection.</code><code class="descname">SelectionBox</code><span class="sig-paren">(</span><em>boxes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/api/selection.html#SelectionBox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.selection.SelectionBox" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Holding class for multiple SubBoxes which allows for non-rectangular and non-contiguous selections</p>
+<dl class="method">
+<dt id="api.selection.SelectionBox.add_box">
+<code class="descname">add_box</code><span class="sig-paren">(</span><em>other</em>, <em>do_merge_check=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/api/selection.html#SelectionBox.add_box"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.selection.SelectionBox.add_box" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a SubBox to the selection box. If <cite>other</cite> is next to another SubBox in the selection, matches in any 2 dimensions, and
+<cite>do_merge_check</cite> is True, then the 2 boxes will be combined into 1 box.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>other</strong> (<a class="reference internal" href="#api.selection.SubBox" title="api.selection.SubBox"><code class="xref py py-class docutils literal notranslate"><span class="pre">SubBox</span></code></a>) – The box to add</li>
+<li><strong>do_merge_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Boolean flag to merge boxes if able</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.selection.SelectionBox.is_rectangular">
+<code class="descname">is_rectangular</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/api/selection.html#SelectionBox.is_rectangular"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.selection.SelectionBox.is_rectangular" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the SelectionBox is a rectangle</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True is the selection is a rectangle, False otherwise</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.selection.SelectionBox.subboxes">
+<code class="descname">subboxes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/api/selection.html#SelectionBox.subboxes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.selection.SelectionBox.subboxes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator of the SubBoxes in the SelectionBoxes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterator" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterator</span></code></a>[<a class="reference internal" href="#api.selection.SubBox" title="api.selection.SubBox"><code class="xref py py-class docutils literal notranslate"><span class="pre">SubBox</span></code></a>]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">An iterator of the SubBoxes</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.selection.SubBox">
+<em class="property">class </em><code class="descclassname">api.selection.</code><code class="descname">SubBox</code><span class="sig-paren">(</span><em>min_point</em>, <em>max_point</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/api/selection.html#SubBox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.selection.SubBox" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A SubBox is a box that can represent the entirety of a SelectionBox or just a subsection
+of one. This allows for non-rectangular and non-contiguous selections.</p>
+<p>The both the minimum and  maximum coordinate points are inclusive.</p>
+<dl class="method">
+<dt id="api.selection.SubBox.intersects">
+<code class="descname">intersects</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/api/selection.html#SubBox.intersects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.selection.SubBox.intersects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to check whether this instance of SubBox intersects another SubBox</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> (<a class="reference internal" href="#api.selection.SubBox" title="api.selection.SubBox"><code class="xref py py-class docutils literal notranslate"><span class="pre">SubBox</span></code></a>) – The other SubBox to check for intersection</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if the two SubBoxes intersect, False otherwise</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.selection.SubBox.to_slice">
+<code class="descname">to_slice</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/api/selection.html#SubBox.to_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.selection.SubBox.to_slice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts the SubBoxes minimum/maximum coordinates into slice arguments</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#slice" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">slice</span></code></a>]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The SubBoxes coordinates as slices in (x,y,z) order</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="data_structures.html" class="btn btn-neutral float-right" title="data_structures module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../api.html" class="btn btn-neutral" title="api module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, The Amulet Map Editor Team.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
