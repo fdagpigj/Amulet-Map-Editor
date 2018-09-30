@@ -1,0 +1,269 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>World Design &mdash; Amulet Map Editor  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="command_line module" href="../command_line.html" />
+    <link rel="prev" title="Block Definitions" href="block definitions.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Amulet Map Editor
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../api.html">api module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../design.html">Design Notes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="block definitions.html">Block Definitions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">World Design</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#intro">Intro</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-amulet-format">The “Amulet Format”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#format-loaders">Format Loaders</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line.html">command_line module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../version_definitions.html">version_definitions module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils.html">world_utils module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Amulet Map Editor</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../design.html">Design Notes</a> &raquo;</li>
+        
+      <li>World Design</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/design/world.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="world-design">
+<h1>World Design<a class="headerlink" href="#world-design" title="Permalink to this headline">¶</a></h1>
+<p>Relevant Classes: <a class="reference internal" href="../api/world.html#api.world.World" title="api.world.World"><code class="xref py py-class docutils literal notranslate"><span class="pre">api.world.World</span></code></a>, <a class="reference internal" href="../api/world.html#api.world.WorldFormat" title="api.world.WorldFormat"><code class="xref py py-class docutils literal notranslate"><span class="pre">api.world.WorldFormat</span></code></a></p>
+<div class="section" id="intro">
+<h2>Intro<a class="headerlink" href="#intro" title="Permalink to this headline">¶</a></h2>
+<p>In order to make world loading simpler and more flexible to future changes with Minecraft,
+the Amulet Map Editor only loads/edits a proprietary format. By doing this, to support
+a Minecraft world format, the only things required are separate block/entity/tile entity definitions
+and a “conversion” wrapper, which converts the world data on disc to the “Amulet format”</p>
+</div>
+<div class="section" id="the-amulet-format">
+<h2>The “Amulet Format”<a class="headerlink" href="#the-amulet-format" title="Permalink to this headline">¶</a></h2>
+<p>The “Amulet Format” in a basic form is a wrapper and temporary storage of world data for editing.
+For blocks, the format expects the blocks to be integer-based, however, these integers are dynamic
+and are assigned to blocks as new ones are found with newly loaded chunks. IE: <code class="docutils literal notranslate"><span class="pre">minecraft:stone</span></code>
+won’t always have an integer ID of 1, but may have one of 20 if it isn’t encountered any time earlier
+when loading other chunks.</p>
+<p>Despite using integer based IDs, these IDs are used only internally, any method that exposes blocks
+will normalize the ID to the internal string ID used by the editor (these string IDs are based off
+of the blockstates present in 1.13). The only way to reference a block will be through this way, integer
+IDs are entirely dynamic and should never be used except for loading/saving chunks.</p>
+</div>
+<div class="section" id="format-loaders">
+<h2>Format Loaders<a class="headerlink" href="#format-loaders" title="Permalink to this headline">¶</a></h2>
+<p>Each world format loader is separated into their own containers and don’t do any editing of
+their own. Each format loader handles reading the world data then converting the blocks/entities/
+tile entities into a format that the Amulet Format expects. Each format loader must inherit from
+<a class="reference internal" href="../api/world.html#api.world.WorldFormat" title="api.world.WorldFormat"><code class="xref py py-class docutils literal notranslate"><span class="pre">api.world.WorldFormat</span></code></a></p>
+<p>When loading, format loaders are first called via a class method <code class="docutils literal notranslate"><span class="pre">load()</span></code> which is expected to
+return a <a class="reference internal" href="../api/world.html#api.world.World" title="api.world.World"><code class="xref py py-class docutils literal notranslate"><span class="pre">api.world.World</span></code></a> instance. The method receives the path to directory of the world.
+Once the world is loaded, the format loader is only used to load and translate new data from the disc.</p>
+<p>When saving, format loaders shouldn’t make any assumptions about the previous format of the world
+since the Amulet Format doesn’t keep track of that data. Due to this, while saving various attributes
+should be check and either saved or ignored depending on what data is present.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../command_line.html" class="btn btn-neutral float-right" title="command_line module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="block definitions.html" class="btn btn-neutral" title="Block Definitions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, The Amulet Map Editor Team.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
