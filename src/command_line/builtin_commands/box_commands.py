@@ -54,6 +54,9 @@ class BoxCommand(ComplexCommand):
     def create(self, args: List[str]):
         if len(args) < 4:
             print('Usage: box.create "name" <x1,y1,z1> <x2,y2,z2> ....')
+            if len(args) < 2:
+                self.error("You must provide a box name")
+                return
 
         box_name = args[1]
 
